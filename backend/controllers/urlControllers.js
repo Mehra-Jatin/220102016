@@ -42,7 +42,7 @@ export const getClicks = async (req, res) => {
   try {
     const { code } = req.params;
 
-    const urlDoc = await Url.findOne({ shortcode: code }).populate("clicks");
+    const urlDoc = await Url.findOne({ shortcode: code });
     if (!urlDoc) {
       await Log("backend", "error", "controller", `Shortcode ${code} not found`);
       return res.status(404).json({ error: "Shortcode not found" });
@@ -62,11 +62,13 @@ export const getClicks = async (req, res) => {
     urlDoc.clicks.push(newClick._id);
     await urlDoc.save();
 
+
+
     const updatedUrl = await Url.findById(urlDoc._id).populate("clicks");
 
     await Log("backend", "info", "controller", `Click registered for shortcode ${code}`);
 
-    return res.json({
+    return res.status(200).json({
       originalUrl: updatedUrl.originalUrl,
       createdAt: updatedUrl.createdAt,
       expiry: updatedUrl.expiry,

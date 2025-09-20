@@ -5,17 +5,11 @@ const urlSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    shortUrl: {
-        type: String,
-        required: true,
-        unique: true
-    },
      shortcode: {
     type: String,
     required: true,
     unique: true
   },
-
     createdAt: {
         type: Date,
         default: Date.now
